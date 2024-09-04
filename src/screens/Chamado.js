@@ -95,11 +95,31 @@ export const Chamado = () => {
                     ]);
                 }
             } else if (serviceType === 'Instalação de Softwares') {
-                setSuggestions([
-                    'Antivírus: Norton',
-                    'Software de limpeza: CCleaner',
-                    'Software de backup: Acronis True Image'
-                ]);
+                if (repairDetails === 'Software não está funcionando') {
+                    setSuggestions([
+                        'Reinstalação do software',
+                        'Verificação de compatibilidade',
+                        'Atualização de drivers'
+                    ]);
+                } else if (repairDetails === 'Erro de instalação') {
+                    setSuggestions([
+                        'Verificação de requisitos do sistema',
+                        'Verificação de espaço em disco',
+                        'Atualização do sistema operacional'
+                    ]);
+                } else if (repairDetails === 'Licença não válida') {
+                    setSuggestions([
+                        'Verificação da chave de licença',
+                        'Contato com o suporte técnico do software',
+                        'Atualização de licença'
+                    ]);
+                } else if (repairDetails === 'Outro') {
+                    setSuggestions([
+                        'Verificação geral do software',
+                        'Reinstalação e configuração',
+                        'Contato com o suporte técnico'
+                    ]);
+                }
             }
 
             setSubmissionSuccess(true);
