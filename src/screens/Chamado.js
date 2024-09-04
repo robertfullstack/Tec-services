@@ -12,6 +12,7 @@ export const Chamado = () => {
     const [image, setImage] = useState(null);
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
+    const [repairDetails, setRepairDetails] = useState(''); // Novo estado para detalhes de reparo
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +24,8 @@ export const Chamado = () => {
             serviceType,
             desiredDate,
             preferredTechnician,
-            image: '' // Inicialmente vazio
+            image: '', // Inicialmente vazio
+            repairDetails // Adicionar detalhes de reparo
         };
 
         try {
@@ -33,29 +35,65 @@ export const Chamado = () => {
                 const imageRef = storageRef(storage, `images/${Date.now()}_${image.name}`);
                 await uploadBytes(imageRef, image);
                 const imageUrl = await getDownloadURL(imageRef);
-                chamadoData.image = imageUrl; // Armazene a URL da imagem no Realtime Database
+                chamadoData.image = imageUrl;
             }
 
-            // Gerar um ID único para o novo chamado
             const newChamadoRef = ref(database, 'Chamados/' + Date.now());
 
-            // Salvar os dados no Firebase
             await set(newChamadoRef, chamadoData);
             console.log('Chamado salvo com sucesso!');
 
-            // Exibir sugestões com base no tipo de serviço
+            // Atualizar sugestões com base no tipo de serviço e detalhes de reparo
             if (serviceType === 'Reparo de Computadores') {
-                setSuggestions([
-                    'Peça de reposição: HD',
-                    'Peça de reposição: Memória RAM',
-                    'Software de diagnóstico: AIDA64'
-                ]);
+                if (repairDetails === 'HD não está funcionando') {
+                    setSuggestions([
+                        'Peça de reposição: HD',
+                        'Software de diagnóstico: AIDA64'
+                    ]);
+                } else if (repairDetails === 'Computador está lento') {
+                    setSuggestions([
+                        'Peça de reposição: Memória RAM',
+                        'Software de limpeza: CCleaner'
+                    ]);
+                } else if (repairDetails === 'Problemas de inicialização') {
+                    setSuggestions([
+                        'Peça de reposição: HD',
+                        'Software de diagnóstico: AIDA64'
+                    ]);
+                } else if (repairDetails === 'Outro') {
+                    setSuggestions([
+                        'Peça de reposição: HD',
+                        'Peça de reposição: Memória RAM',
+                        'Software de diagnóstico: AIDA64'
+                    ]);
+                }
             } else if (serviceType === 'Manutenção de Redes') {
-                setSuggestions([
-                    'Roteador de alta performance',
-                    'Cabo de rede Cat6',
-                    'Software de monitoramento de rede'
-                ]);
+                if (repairDetails === 'Problemas de conexão') {
+                    setSuggestions([
+                        'Roteador de alta performance',
+                        'Cabo de rede Cat6',
+                        'Software de monitoramento de rede'
+                    ]);
+                } else if (repairDetails === 'Rede lenta') {
+                    setSuggestions([
+                        'Roteador de alta performance',
+                        'Cabo de rede Cat6',
+                        'Software de monitoramento de rede'
+                    ]);
+                } else if (repairDetails === 'Falha de hardware') {
+                    setSuggestions([
+                        'Roteador de alta performance',
+                        'Switch de rede',
+                        'Cabo de rede Cat6'
+                    ]);
+                } else if (repairDetails === 'Outro') {
+                    setSuggestions([
+                        'Roteador de alta performance',
+                        'Cabo de rede Cat6',
+                        'Switch de rede',
+                        'Software de monitoramento de rede'
+                    ]);
+                }
             } else if (serviceType === 'Instalação de Softwares') {
                 setSuggestions([
                     'Antivírus: Norton',
@@ -76,6 +114,7 @@ export const Chamado = () => {
         setDesiredDate('');
         setPreferredTechnician('');
         setImage(null);
+        setRepairDetails(''); // Limpar detalhes de reparo
     };
 
     return (
@@ -109,7 +148,11 @@ export const Chamado = () => {
                             <select
                                 id="serviceType"
                                 value={serviceType}
-                                onChange={(e) => setServiceType(e.target.value)}
+                                onChange={(e) => {
+                                    setServiceType(e.target.value);
+                                    // Limpar detalhes de reparo ao mudar o tipo de serviço
+                                    setRepairDetails('');
+                                }}
                                 required
                             >
                                 <option value="">Selecione um serviço</option>
@@ -118,6 +161,43 @@ export const Chamado = () => {
                                 <option value="Instalação de Softwares">Instalação de Softwares</option>
                             </select>
                         </div>
+                        {serviceType && (
+                            <div className="form-group">
+                                <label htmlFor="repairDetails">Detalhes do Problema:</label>
+                                <select
+                                    id="repairDetails"
+                                    value={repairDetails}
+                                    onChange={(e) => setRepairDetails(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Selecione um detalhe</option>
+                                    {serviceType === 'Reparo de Computadores' && (
+                                        <>
+                                            <option value="HD não está funcionando">HD não está funcionando</option>
+                                            <option value="Computador está lento">Computador está lento</option>
+                                            <option value="Problemas de inicialização">Problemas de inicialização</option>
+                                            <option value="Outro">Outro</option>
+                                        </>
+                                    )}
+                                    {serviceType === 'Manutenção de Redes' && (
+                                        <>
+                                            <option value="Problemas de conexão">Problemas de conexão</option>
+                                            <option value="Rede lenta">Rede lenta</option>
+                                            <option value="Falha de hardware">Falha de hardware</option>
+                                            <option value="Outro">Outro</option>
+                                        </>
+                                    )}
+                                    {serviceType === 'Instalação de Softwares' && (
+                                        <>
+                                            <option value="Software não está funcionando">Software não está funcionando</option>
+                                            <option value="Erro de instalação">Erro de instalação</option>
+                                            <option value="Licença não válida">Licença não válida</option>
+                                            <option value="Outro">Outro</option>
+                                        </>
+                                    )}
+                                </select>
+                            </div>
+                        )}
                         <div className="form-group">
                             <label htmlFor="desiredDate">Data Pretendida Para Resolução do Problema:</label>
                             <input
@@ -150,7 +230,17 @@ export const Chamado = () => {
                 </div>
             ) : (
                 <div>
-                    <h1>Nosso sistema detectou seu chamado</h1>
+                    <h1>Chamado Registrado com Sucesso!</h1>
+                    <p>Aqui estão os detalhes do seu chamado:</p>
+                    <div className="chamado-details">
+                        <p><strong>Nome:</strong> {name}</p>
+                        <p><strong>Número de Telefone:</strong> {phone}</p>
+                        <p><strong>Tipo de Serviço:</strong> {serviceType}</p>
+                        <p><strong>Detalhes do Problema:</strong> {repairDetails}</p>
+                        <p><strong>Data Pretendida:</strong> {desiredDate}</p>
+                        <p><strong>Preferência por Técnico:</strong> {preferredTechnician}</p>
+                        {image && <p><strong>Imagem:</strong> <a href={image} target="_blank" rel="noopener noreferrer">Visualizar Imagem</a></p>}
+                    </div>
                     <p>Temos algumas sugestões para você:</p>
                     <ul>
                         {suggestions.map((suggestion, index) => (
