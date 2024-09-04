@@ -253,8 +253,8 @@ export const Chamado = () => {
                     <h1>Chamado Registrado com Sucesso!</h1>
                     <p>Aqui estão os detalhes do seu chamado:</p>
                     <div className="chamado-details">
-                        <p><strong>Nome:</strong> {name}</p>
-                        <p><strong>Número de Telefone:</strong> {phone}</p>
+                        <p><strong>Responsável:</strong> {name}</p>
+                        <p><strong>Número de Contato:</strong> {phone}</p>
                         <p><strong>Tipo de Serviço:</strong> {serviceType}</p>
                         <p><strong>Detalhes do Problema:</strong> {repairDetails}</p>
                         <p><strong>Data Pretendida:</strong> {desiredDate}</p>
