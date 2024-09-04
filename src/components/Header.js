@@ -42,15 +42,15 @@ const Header = () => {
         </div>
         <nav className={`navbar ${isOpen ? 'open' : ''}`}>
           <ul className="nav-links">
-            <li><a href="#home">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/Servico">Serviços</a></li>
-            <li><a href="#about">Sobre</a></li>
-            <li><a href="#contact">Contato</a></li>
+            <li><a href="/about">Sobre</a></li>
+            <li><a href="/contact">Contato</a></li>
           </ul>
           {isLoggedIn ? (
             <button className="contact-button" onClick={handleLogout}>Sair</button>
           ) : (
-            <button className="contact-button" onClick={handleLoginRedirect}>Fale Conosco</button>
+            <button className="contact-button" onClick={handleLoginRedirect}>Fazer Login</button>
           )}
         </nav>
 

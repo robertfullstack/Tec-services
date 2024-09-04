@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/Home.scss';
 import { FaTools, FaMobileAlt, FaSyncAlt, FaShoppingCart, FaEnvelope, FaStar } from 'react-icons/fa';
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -75,18 +76,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      <section className="contact-section">
-        <h2>Fale Conosco</h2>
-        <p>Entre em contato conosco para mais informações ou para agendar um serviço.</p>
-        <button className="contact-button">
-          <FaEnvelope className="button-icon" /> Contato
-        </button>
-      </section>
-
-      <footer className="footer">
-        <p>&copy; 2024 TecService. Todos os direitos reservados.</p>
-      </footer>
     </div>
   );
 };

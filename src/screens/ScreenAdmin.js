@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { database, ref, onValue } from '../screens/firebase'; // Certifique-se de importar onValue corretamente
-
+import "../styles/ScreenAdmin.scss"; //
 const ScreenAdmin = () => {
     const [chamados, setChamados] = useState([]);
     const [email, setEmail] = useState('');
@@ -13,6 +13,9 @@ const ScreenAdmin = () => {
         e.preventDefault();
 
         if (email === 'robert@gmail.com' && password === 'robert') {
+            setIsAuthenticated(true);
+            setError('');
+        } else if (email === 'gabriel@gmail.com' && password === 'gabriel') {
             setIsAuthenticated(true);
             setError('');
         } else {
@@ -76,7 +79,7 @@ const ScreenAdmin = () => {
                     </form>
                 </div>
             ) : (
-                <div>
+                <div className='chamados-list'>
                     <h1>Lista de Chamados</h1>
                     <table>
                         <thead>

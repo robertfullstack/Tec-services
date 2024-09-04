@@ -1,0 +1,60 @@
+@import "../index.scss";
+
+.contact-section {
+    overflow-y: hidden;
+    background-color: #fff;
+    color: #000;
+    display: flex;
+
+    h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2em; 
+      margin-bottom: 20px;
+    }
+
+.left-side-text,
+.right-side-inp-field {
+    width: 100%;
+    margin: 30px;
+}
+
+.right-side-inp-field {
+    label {
+        margin-top: 10px;
+    }
+    input, textarea {
+        border: solid 1px #cecece;
+    }
+    textarea {
+        width: -webkit-fill-available;
+    }
+}
+
+    .contact-button {
+      background-color: $bg-button;
+      color: #13131F;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $bg-button-hover;
+      }
+
+      .button-icon {
+        margin-right: 10px;
+      }
+
+      
+    }
+  }
